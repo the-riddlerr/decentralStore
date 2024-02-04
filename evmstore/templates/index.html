@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evm Store</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='global.css') }}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </head>
+  <body>
+    <div class="container-fluid align-items-center">
+      <h1 class="px-5">Add Ledger Entries</h1>
+      <form
+        class="container-fluid p-5"
+        method="POST"
+        action="/add"
+        onsubmit="showLoader()"
+      >
+        <div class="row p-2">
+          <label class="col-2" for="description">Description</label>
+          <input
+            class="col-5"
+            type="text"
+            name="description"
+            id="description"
+            class="form-control"
+          />
+        </div>
+        <div class="row p-2">
+          <label class="col-2" for="amount">Amount</label>
+          <input
+            class="col-5"
+            type="number"
+            name="amount"
+            id="amount"
+            class="form-control"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">
+          Store on Ledger
+        </button>
+      </form>
+      <h1 class="px-5">Ledger Entries</h1>
+      <ul>
+        {% for item in data %}
+        <li>{{ item[1] }} - {{ item[0] }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div id="toaster" class="toaster"></div>
+    <div class="text" id="loader" style="display: none">
+      Sending Transaction...
+    </div>
+    <script>
+      {% if tx_hash is not none %}
+          showToast("Tx Hash: {{ tx_hash }}");
+      {% endif %}
+    </script>
+  </body>
+</html>
